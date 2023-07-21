@@ -1,0 +1,26 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+  
+.App {
+    .background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='bg_pattern' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='40' cy='50' r='10' fill='%2392DE8b'></circle><circle cx='60' cy='50' r='10' fill='%2392DE8b'></circle><circle cx='50' cy='40' r='10' fill='%2392DE8b'></circle><circle cx='50' cy='60' r='10' fill='%2392DE8b'></circle><circle cx='50' cy='50' r='5' fill='%23028177'></circle><circle cx='8' cy='8' r='10' fill='%2392DE8b'></circle><circle cx='92' cy='8' r='10' fill='%2392DE8b'></circle><circle cx='8' cy='92' r='10' fill='%2392DE8b'></circle><circle cx='92' cy='92' r='10' fill='%2392DE8b'></circle><circle cx='0' cy='0' r='5' fill='%23028177'></circle><circle cx='100' cy='0' r='5' fill='%23028177'></circle><circle cx='0' cy='100' r='5' fill='%23028177'></circle><circle cx='100' cy='100' r='5' fill='%23028177'></circle></pattern></defs><rect x='0' y='0' width='100%' height='100%' fill='%23FFE3B3' opacity='1'></rect><rect x='0' y='0' width='100%' height='100%' fill='url(%23bg_pattern)' opacity='1'></rect></svg>");
+        background-size: cover;
+        z-index: -1;
+    }
+
+    .Clock {
+        .wrapper {
+            background: #0ab68b;
+            padding: 25px;
+            border-radius: 10px;
+          }
+    }
+}
