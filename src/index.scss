@@ -20,7 +20,93 @@ body {
         .wrapper {
             background: #0ab68b;
             padding: 25px;
-            border-radius: 10px;
-          }
+            border-radius: 20px;
+            width: 32vw;
+        }
+        &__time {
+            color: #FFF;
+            margin: 0;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 200px;
+            font-weight: 400;
+        }
+        .menu {
+            display: flex;
+            justify-content: center;
+            &__item {
+                cursor: pointer;
+                background: transparent;
+                padding: 10px 15px;
+                margin: 0 2.5px;
+                border: 1px solid #fff;
+                color: #fff;
+                text-transform: uppercase;
+                font-weight: 600;
+                &:hover {
+                    border-radius: 10px 0 10px 0;
+                }
+                &:disabled {
+                    background-color: #1e1e1e98;
+                    cursor: not-allowed;
+                }
+            }
+            .active {
+                border-radius: 10px 10px 0 0;
+                background-color: #ffe3b3;
+                cursor: pointer;
+                &:disabled {
+                    background-color: #ffe3b3bd;
+                    cursor: not-allowed;
+                }
+            }
+        }
+        .time-setter {
+            margin: 10px 0;
+        }
+        .time-submiter {
+            cursor: pointer;
+            background-color: #fff;
+            padding: 10px 15px;
+            border: none;
+        }
+        .form {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 0.5rem;
+            label {
+                color: #fff;
+            }
+            &__button {
+                color: #fff;
+                background-color: transparent;
+                border: 2.5px solid #fff;
+                border-bottom: 10px solid white;
+                padding: 20px 35px;
+                cursor: pointer;
+                &:disabled {
+                    background-color: #1e1e1e86;
+                    cursor: not-allowed;
+                }
+            }
+            &__settings {
+                margin-left: 5px;
+                color: #fff;
+                background-color: rgba(255, 255, 255, 0.43);
+                border: 2.5px solid #fff;
+                padding: 20px 35px;
+                cursor: pointer;
+                transition: all 0.3s;
+                &:hover {
+                    background-color: #fff;
+                    color: #1e1e1e;
+                }
+                &:disabled {
+                    background-color: #1e1e1e86;
+                    cursor: not-allowed;
+                }
+            }
+        }
     }
 }
