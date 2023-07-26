@@ -72,7 +72,7 @@ const Clock = () => {
           <div style={{'display': 'flex', 'justifyContent': 'center'}}>
            <h1 className='Clock__time'>{formatTimeLeft(time)}</h1>
           </div>
-          <form style={isVisible ? {'display': 'flex'} : {'display': 'none'}} className='form' onSubmit={handleSubmit}>
+          <form style={isVisible && !isStart ? {'display': 'flex'} : {'display': 'none'}} className='form' onSubmit={handleSubmit}>
             <label>
               Enter your minutes:
             </label>
