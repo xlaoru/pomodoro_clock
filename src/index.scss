@@ -28,9 +28,6 @@ body {
             @media (max-width: 450px) {
                 width: 225px;
             }
-            @media (max-width: 300px) {
-                width: 200px;
-            }
         }
         &__time {
             color: #FFF;
@@ -43,9 +40,6 @@ body {
             }
             @media (max-width: 450px) {
                 font-size: 100px;
-            }
-            @media (max-width: 300px) {
-                font-size: 80px;
             }
         }
         .menu {
@@ -74,10 +68,6 @@ body {
                 @media (max-width: 450px) {
                     padding: 5px 7.5px;
                     font-size: 7.5px;
-                }
-                @media (max-width: 300px) {
-                    padding: 2.5px 5px;
-                    font-size: 6.5px;
                 }
             }
             .active {
