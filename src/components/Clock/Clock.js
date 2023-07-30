@@ -1,91 +1,108 @@
 import React, { useState, useEffect } from 'react';
 
-const Clock = () => {
-  const categories = [{title: 'pomodoro', time: (25 * 60)}, {title: 'short break', time: (5 * 60)}, {title: 'long break', time: (15 * 60)}]
-
-  const [activeCategory, setActive] = useState()
-  const [inputValue, setInputValue] = useState('');
-  const [time, setTime] = useState(0);
+const TestClock = () => {
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
   const [isStart, setStart] = useState(false);
-  const timerRef = React.useRef(null);
+  const [remainingTime, setRemainingTime] = useState(0);
+  const [isFocus, setFocus] = useState(false)
+  const [activeCategory, setActive] = useState()
 
-  const [isVisible, setVisible] = useState(false)
-
-  const handleChange = (event) => {
-    if(event.target.value > 99) alert('time must be less than 99 minutes')
-    else setInputValue(event.target.value);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setStart(false);
-    setTime(inputValue * 60);
-    setInputValue('');
-  };
-
-  const handleOptions = (time) => {
-    setStart(false);
-    setTime(time);
-    setInputValue('');
-  };
-
-  const formatTimeLeft = (seconds) => {
-    return `${seconds / 60 > 9 ? '' : '0'}${Math.floor(seconds / 60)}:${seconds % 60 > 9 ? seconds % 60 : '0' + seconds % 60}`;
-  };
-
-  useEffect(() => {
-    if (time === 0) {
-        setStart(false)
-        return;
-    }
-
-    if (isStart) {
-      timerRef.current = setInterval(() => {
-        setTime((prev) => prev - 1);
-      }, 1000);
-    } else {
-      clearInterval(timerRef.current);
-    }
-
-    return () => {
-      clearInterval(timerRef.current);
-    };
-  }, [time, isStart]);
+  const categories = [{title: 'pomodoro', time: (25)}, {title: 'short break', time: (5)}, {title: 'long break', time: (15)}]
 
   const menuControls = categories.map((item, index) => (
     <button 
       disabled={isStart} 
       key={index} 
       className={activeCategory === index ? 'menu__item active'  : 'menu__item'}
-      onClick={() => {handleOptions(item.time); setActive(index)}}
+      onClick={() => {setSeconds(0); setMinutes(item.time); setActive(index)}}
     >
       {item.title}
     </button>
   ))
 
+  useEffect(() => {
+    if (isStart && remainingTime > 0) {
+      const timer = setInterval(() => {
+        setRemainingTime((prevTime) => prevTime - 1);
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }
+  }, [isStart, remainingTime]);
+
+  useEffect(() => {
+    setRemainingTime(minutes * 60 + seconds);
+  }, [minutes, seconds]);
+
+  const handleChange = (event, type) => {
+    if (!(+event.target.value > 59) && type === 'minutes') {
+      setMinutes(+event.target.value);
+    }
+
+    if (!(+event.target.value > 59) && type === 'seconds') {
+      setSeconds(+event.target.value);
+    }
+  };
+
+  const handleSubmit = () => {
+    setStart(prev => !prev);
+  };
+
   return (
-    <div className='Clock'>
-        <div className='wrapper'>
-          <div className="menu">
-            {menuControls}
-          </div>
-          <div style={{'display': 'flex', 'justifyContent': 'center'}}>
-           <h1 className='Clock__time'>{formatTimeLeft(time)}</h1>
-          </div>
-          <form style={isVisible && !isStart ? {'display': 'flex'} : {'display': 'none'}} className='form' onSubmit={handleSubmit}>
-            <label>
-              Enter your minutes:
-            </label>
-            <input className='time-setter' disabled={isStart} type="number" value={inputValue} onChange={handleChange} />
-            <button disabled={isStart} type="submit" className='time-submiter'>Submit</button>
-          </form>
-          <div style={{'display': 'flex', 'justifyContent': 'center', 'margin': '20px 0 5px 0'}}>
-            <button disabled={time === 0} className='form__button' style={isStart ? {'borderBottom': '2.5px solid #fff'} : {'borderBottom': '7.5px solid #fff'}} onClick={() => time === 0 ? setStart(false) : setStart((prev) => !prev)}>Start</button>
-            <button disabled={isStart} className='form__settings' onClick={() => setVisible(prev => !prev)}>Custom Time</button>
-          </div>
+    <div className="Clock">
+      <div className="wrapper">
+        <div className="menu">
+          {menuControls}
         </div>
+        <div style={{ display: 'flex', justifyContent: 'center', 'marginTop': '20px' }}>
+          <input
+            onFocus={() => {setFocus(true); setActive(null)}}
+            onBlur={() => setFocus(false)}
+            disabled={isStart}
+            value={
+              isFocus 
+                ? isStart 
+                  ? Math.floor(remainingTime / 60) < 10 ? `0${Math.floor(remainingTime / 60)}` : Math.floor(remainingTime / 60)
+                  : Math.floor(remainingTime / 60)
+                : Math.floor(remainingTime / 60) < 10 ? `0${Math.floor(remainingTime / 60)}` : Math.floor(remainingTime / 60)
+            }
+            style={{
+              'width': '115px', 'fontSize': '100px', 'background': 'transparent', 'border': 'none','color': 'white', 'textAlign': 'right'}}
+            maxLength={2}
+            onChange={(event) => handleChange(event, 'minutes')}
+          />
+          <span style={{ fontSize: '100px', color: 'white' }}>:</span>
+          <input
+            onFocus={() => {setFocus(true); setActive(null)}}
+            onBlur={() => setFocus(false)}
+            disabled={isStart}
+            value={
+              isFocus
+                ? isStart 
+                  ? remainingTime % 60 < 10 ? `0${remainingTime % 60}` : remainingTime % 60
+                  : remainingTime % 60
+                : remainingTime % 60 < 10 ? `0${remainingTime % 60}` : remainingTime % 60
+            }
+            style={{
+              'width': '115px', 'fontSize': '100px', 'background': 'transparent', 'border': 'none', 'color': 'white', 'textAlign': 'right'
+            }}
+            maxLength={2}
+            onChange={(event) => handleChange(event, 'seconds')}
+          />
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0 5px 0' }}>
+          <button
+            className="form__button"
+            style={isStart ? { borderBottom: '2.5px solid #fff' } : { borderBottom: '7.5px solid #fff' }}
+            onClick={handleSubmit}
+          >
+            {isStart ? 'Pause' : 'Start'}
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default Clock;
+export default TestClock;

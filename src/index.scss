@@ -25,22 +25,6 @@ body {
             @media (max-width: 600px) {
                 width: 300px;
             }
-            @media (max-width: 450px) {
-                width: 225px;
-            }
-        }
-        &__time {
-            color: #FFF;
-            margin: 0;
-            font-family: 'Fredoka', sans-serif;
-            font-size: 200px;
-            font-weight: 400;
-            @media (max-width: 600px) {
-                font-size: 125px;
-            }
-            @media (max-width: 450px) {
-                font-size: 100px;
-            }
         }
         .menu {
             display: flex;
@@ -64,10 +48,6 @@ body {
                 @media (max-width: 600px) {
                     padding: 7.5px 10px;
                     font-size: 10px;
-                }
-                @media (max-width: 450px) {
-                    padding: 5px 7.5px;
-                    font-size: 7.5px;
                 }
             }
             .active {
