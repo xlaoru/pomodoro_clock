@@ -5,8 +5,11 @@ const TestClock = () => {
   const [seconds, setSeconds] = useState(0);
   const [isStart, setStart] = useState(false);
   const [remainingTime, setRemainingTime] = useState(0);
-  const [isFocus, setFocus] = useState(false)
+  const [isFocusMin, setFocusMin] = useState(false)
+  const [isFocusSec, setFocusSec] = useState(false)
   const [activeCategory, setActive] = useState()
+  const [isTypedMin, setTypedMin] = useState(false)
+  const [isTypedSec, setTypedSec] = useState(false)
 
   const categories = [{title: 'pomodoro', time: (25)}, {title: 'short break', time: (5)}, {title: 'long break', time: (15)}]
 
@@ -33,6 +36,7 @@ const TestClock = () => {
 
   useEffect(() => {
     setRemainingTime(minutes * 60 + seconds);
+    console.log(remainingTime)
   }, [minutes, seconds]);
 
   const handleChange = (event, type) => {
@@ -57,38 +61,34 @@ const TestClock = () => {
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', 'marginTop': '20px' }}>
           <input
-            onFocus={() => {setFocus(true); setActive(null)}}
-            onBlur={() => setFocus(false)}
+            onFocus={() => {setFocusMin(true); setActive(null)}}
+            onBlur={() => setFocusMin(false)}
             disabled={isStart}
             value={
-              isFocus 
-                ? isStart 
-                  ? Math.floor(remainingTime / 60) < 10 ? `0${Math.floor(remainingTime / 60)}` : Math.floor(remainingTime / 60)
-                  : Math.floor(remainingTime / 60)
+              isFocusMin 
+                ? isTypedMin ? null : ''
                 : Math.floor(remainingTime / 60) < 10 ? `0${Math.floor(remainingTime / 60)}` : Math.floor(remainingTime / 60)
             }
             style={{
               'width': '115px', 'fontSize': '100px', 'background': 'transparent', 'border': 'none','color': 'white', 'textAlign': 'right'}}
             maxLength={2}
-            onChange={(event) => handleChange(event, 'minutes')}
+            onChange={(event) => {handleChange(event, 'minutes'); setTypedMin(true)}}
           />
           <span style={{ fontSize: '100px', color: 'white' }}>:</span>
           <input
-            onFocus={() => {setFocus(true); setActive(null)}}
-            onBlur={() => setFocus(false)}
+            onFocus={() => {setFocusSec(true); setActive(null)}}
+            onBlur={() => setFocusSec(false)}
             disabled={isStart}
             value={
-              isFocus
-                ? isStart 
-                  ? remainingTime % 60 < 10 ? `0${remainingTime % 60}` : remainingTime % 60
-                  : remainingTime % 60
+              isFocusSec
+                ? isTypedSec ? null : ''
                 : remainingTime % 60 < 10 ? `0${remainingTime % 60}` : remainingTime % 60
             }
             style={{
               'width': '115px', 'fontSize': '100px', 'background': 'transparent', 'border': 'none', 'color': 'white', 'textAlign': 'right'
             }}
             maxLength={2}
-            onChange={(event) => handleChange(event, 'seconds')}
+            onChange={(event) => {handleChange(event, 'seconds'); setTypedSec(true)}}
           />
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0 5px 0' }}>
