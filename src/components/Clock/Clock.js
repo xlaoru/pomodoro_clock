@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const Clock = () => {
   const [isStart, setStart] = useState(false);
@@ -28,6 +28,17 @@ const Clock = () => {
       {item.title}
     </button>
   ));
+
+  const minuteInputRef = useRef(null);
+  const secondInputRef = useRef(null);
+
+  const handleUnfocus = (isMinuteInput) => {
+    if (isMinuteInput) {
+      minuteInputRef.current.blur();
+    } else {
+      secondInputRef.current.blur();
+    }
+  };
 
   useEffect(() => {
     if (isStart && remainingTime > 0) {
@@ -78,11 +89,12 @@ const Clock = () => {
               if (!(+event.target.value > 59)) {
                 setRemainingTime((prevTime) => {
                   return +event.target.value * 60 + (prevTime % 60);
-                })
+                });
               } else {
-                alert('Value must be less than 60')
+                handleUnfocus(true);
               }
             }}
+            ref={minuteInputRef}
           />
           <span style={{ fontSize: '100px', color: 'white' }}>:</span>
           <input
@@ -115,9 +127,10 @@ const Clock = () => {
                   return Math.floor(prevTime / 60) * 60 + +event.target.value;
                 });
               } else {
-                alert('Value must be less than 60')
+                handleUnfocus(false);
               }
             }}
+            ref={secondInputRef}
           />
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0 5px 0' }}>
